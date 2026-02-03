@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
 
   for (int i = 0; i < nping; i++) {
     size_t BUF_SIZE = 1024;
-    char buffer[BUF_SIZE];
+    unsigned char buffer[BUF_SIZE];
     struct sockaddr_in addr;
     socklen_t length = sizeof addr;
 
@@ -96,10 +96,7 @@ int main(int argc, char **argv) {
     }
 
     for (int j = 0; j < sizeof(buffer); j++) {
-      int value = buffer[i] - '0';
-      int new_value = value + 1;
-
-      buffer[i] = new_value;
+      buffer[j] = (buffer[j] + 1);
     }
 
     char ip[INET_ADDRSTRLEN];

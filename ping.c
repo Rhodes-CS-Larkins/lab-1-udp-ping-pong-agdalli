@@ -43,9 +43,9 @@ int main(int argc, char **argv) {
   }
 
   // UDP ping implemenation goes here
-  char *array[arraysize];
+  unsigned char array[arraysize];
   for (int i = 0; i < arraysize; i++) {
-    array[i] = "200";
+    array[i] = 200;
   }
 
   struct addrinfo hints;
@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
   double total = 0;
   double avg = 0;
   int buffer_size = 1024;
-  char buffer[buffer_size];
+  unsigned char buffer[buffer_size];
   int value;
 
   for (int i = 0; i < nping; i++) {
@@ -107,6 +107,14 @@ int main(int argc, char **argv) {
     if (rec == -1) {
       perror("recvfrom");
       exit(1);
+    }
+
+    // validate array
+    for (int a = 0; a < arraysize; a++) {
+      if (buffer[a] != ((array[a] + 1))) {
+        printf("sent: %u but received %u\n", array[a], buffer[a]);
+        errors++;
+      }
     }
 
     double end = get_wctime();
